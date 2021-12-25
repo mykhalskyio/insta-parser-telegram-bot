@@ -1,0 +1,17 @@
+postgres:
+  port: 5432
+  host: pgdb
+  user: postgres
+  pass: qwerty123
+  name: postgres
+  sslmode: disable
+
+telegram:
+  token: token
+
+instagram:
+  username: username
+  password: password
+  userparse: userparse # whose username must be parsed (without @)
+  channel: channelName # channel where the bot will send photos (without @)
+  minutes: 60 

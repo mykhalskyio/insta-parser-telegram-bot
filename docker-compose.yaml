@@ -1,0 +1,19 @@
+version: '3.1'
+services:
+  bot:
+    build: ./
+    command: ./app
+    depends_on:
+      - pgdb
+
+  pgdb:
+    image: "postgres:11"
+    container_name: "pgdb"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qwerty123
+      - POSTGRES_DB=postgres
+    ports:
+      - "54320:5432"
+    volumes:
+      -  /home/root/rebrain/db/data:/var/lib/postgresql/data
