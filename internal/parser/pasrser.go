@@ -11,7 +11,7 @@ import (
 	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/telegram"
 )
 
-// parse instgram storis (не дуже вигляжає, але працює)
+// parse instgram storis
 func Parse(bot *telegram.TelegramBot, dbpg *db.Postgres, cfg *config.Config) error {
 	user := goinsta.New(cfg.Instagram.User, cfg.Instagram.Pass)
 
