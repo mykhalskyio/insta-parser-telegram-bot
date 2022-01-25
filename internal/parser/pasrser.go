@@ -32,13 +32,13 @@ func Start(bot *telegram.TelegramBot, dbpg *db.Postgres, cfg *config.Config) err
 			continue
 		}
 
-		photo, _ := storis.Download()
+		media, _ := storis.Download()
 
 		photoBytes := tgbotapi.FileBytes{
-			Name:  "picture",
-			Bytes: photo,
+			Name:  "media",
+			Bytes: media,
 		}
-		bot.SendToChannel(cfg.Telegram.Channel, photoBytes)
+		bot.SendToChannel(cfg.Telegram.Channel, photoBytes, storis.MediaType)
 	}
 	return nil
 }
