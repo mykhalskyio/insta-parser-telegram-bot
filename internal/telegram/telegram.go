@@ -21,11 +21,20 @@ func NewBot(token string) (*TelegramBot, error) {
 	}, nil
 }
 
-// send to channel
-func (bot *TelegramBot) SendToChannel(channelName string, data tgbotapi.RequestFileData) error {
-	_, err := bot.Api.Send(tgbotapi.NewPhotoToChannel("@"+channelName, data))
-	if err != nil {
-		return err
+// send media to channel
+func (bot *TelegramBot) SendToChannel(channelName string, data tgbotapi.RequestFileData, dataType int) error {
+	if dataType == 1 {
+		_, err := bot.Api.Send(tgbotapi.NewPhotoToChannel("@"+channelName, data))
+		if err != nil {
+			return err
+		}
+	} else {
+		videoConfig := tgbotapi.NewVideo(0, data)
+		videoConfig.ChannelUsername = "@" + channelName
+		_, err := bot.Api.Send(videoConfig)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
