@@ -1,8 +1,7 @@
 package parser
 
 import (
-	"log"
-	"time"
+	"fmt"
 
 	"github.com/Davincible/goinsta"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -12,39 +11,34 @@ import (
 )
 
 // parse instgram storis
-func Parse(bot *telegram.TelegramBot, dbpg *db.Postgres, cfg *config.Config) error {
+func Start(bot *telegram.TelegramBot, dbpg *db.Postgres, cfg *config.Config) error {
 	user := goinsta.New(cfg.Instagram.User, cfg.Instagram.Pass)
 
 	err := user.Login()
 	if err != nil {
+		fmt.Println("Loggin error:", err)
 		return err
 	}
+	defer user.Logout()
 
-	profile, _ := user.VisitProfile(cfg.Instagram.UserParse)
+	profile, _ := user.VisitProfile(cfg.Telegram.UserParse)
 
-	for {
-		log.Println("Start cicle")
+	stories := profile.Stories.Reel
+	for _, storis := range stories.Items {
+		storisId := storis.GetID()
 
-		log.Println("Get stories")
-		stories := profile.Stories.Reel
-		for _, storis := range stories.Items {
-			storisId := storis.GetID()
-
-			result := dbpg.Check(storisId)
-			if result {
-				continue
-			}
-
-			photo, _ := storis.Download()
-
-			log.Println("Sent storis")
-			bot.Api.Send(tgbotapi.NewPhotoToChannel("@"+cfg.Instagram.Channel, tgbotapi.FileBytes{
-				Name:  "picture",
-				Bytes: photo,
-			}))
-			log.Println("Sent - Ok")
+		result := dbpg.Check(storisId)
+		if result {
+			continue
 		}
-		log.Println("Cicle - ok")
-		time.Sleep(time.Minute * time.Duration(cfg.Instagram.Minutes))
+
+		photo, _ := storis.Download()
+
+		photoBytes := tgbotapi.FileBytes{
+			Name:  "picture",
+			Bytes: photo,
+		}
+		bot.SendToChannel(cfg.Telegram.Channel, photoBytes)
 	}
+	return nil
 }
