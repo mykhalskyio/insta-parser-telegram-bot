@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/config"
 	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/db"
@@ -22,8 +23,16 @@ func main() {
 		log.Fatalln("BD error:", err)
 	}
 
-	log.Println(db.CheckTable())
+	err = db.MigrationInit()
+	if err != nil {
+		log.Fatalln(err)
+	}
 
-	log.Println("Parser error:", parser.Parse(bot, db, cfg))
-
+	for {
+		err := parser.Start(bot, db, cfg)
+		if err != nil {
+			log.Println("Parser error:", err)
+		}
+		time.Sleep(time.Minute * time.Duration(cfg.Parser.Minutes))
+	}
 }

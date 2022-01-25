@@ -3,7 +3,6 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"log"
 
 	_ "github.com/lib/pq"
 	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/config"
@@ -22,8 +21,6 @@ func NewConnect(cfg *config.Config) (*Postgres, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	log.Println("Connect bd postgres - OK")
 
 	if err = conect.Ping(); err != nil {
 		return nil, err
@@ -46,7 +43,8 @@ func (pg *Postgres) Check(id string) bool {
 	return false
 }
 
-func (pg *Postgres) CheckTable() error {
+// migration init
+func (pg *Postgres) MigrationInit() error {
 	err := goose.Up(pg.db, ".")
 	if err != nil {
 		return err

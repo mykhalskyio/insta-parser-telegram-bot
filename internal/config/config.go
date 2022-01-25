@@ -17,14 +17,16 @@ type Config struct {
 		Sslmode string `yaml:"sslmode"`
 	}
 	Telegram struct {
-		Token string `yaml:"token"`
-	}
-	Instagram struct {
-		User      string `yaml:"username"`
-		Pass      string `yaml:"password"`
+		Token     string `yaml:"token"`
 		UserParse string `ymal:"userParse"`
 		Channel   string `yaml:"channel"`
-		Minutes   int    `yaml:"minutes"`
+	}
+	Instagram struct {
+		User string `yaml:"username"`
+		Pass string `yaml:"password"`
+	}
+	Parser struct {
+		Minutes int `yaml:"minutes"`
 	}
 }
 
@@ -33,6 +35,7 @@ var (
 	cfg  *Config
 )
 
+// get config
 func GetConfig() *Config {
 	once.Do(func() {
 		cfg = &Config{}

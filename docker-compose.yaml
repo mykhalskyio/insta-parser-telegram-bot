@@ -16,4 +16,4 @@ services:
     ports:
       - "54320:5432"
     volumes:
-      -  /home/root/rebrain/db/data:/var/lib/postgresql/data
+      -  /home/root/insta-parser-telegram-bot/db/data:/var/lib/postgresql/data

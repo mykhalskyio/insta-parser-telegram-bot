@@ -20,3 +20,12 @@ func NewBot(token string) (*TelegramBot, error) {
 		Api: bot,
 	}, nil
 }
+
+// send to channel
+func (bot *TelegramBot) SendToChannel(channelName string, data tgbotapi.RequestFileData) error {
+	_, err := bot.Api.Send(tgbotapi.NewPhotoToChannel("@"+channelName, data))
+	if err != nil {
+		return err
+	}
+	return nil
+}

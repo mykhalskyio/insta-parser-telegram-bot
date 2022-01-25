@@ -8,10 +8,12 @@ postgres:
 
 telegram:
   token: token
+  userparse: userparse # whose username must be parsed (without @)
+  channel: channel # channel where the bot will send photos (without @)
 
 instagram:
   username: username
   password: password
-  userparse: userparse # whose username must be parsed (without @)
-  channel: channelName # channel where the bot will send photos (without @)
+
+parser:
   minutes: 60 
