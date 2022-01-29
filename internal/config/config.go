@@ -17,13 +17,13 @@ type Config struct {
 		Sslmode string `yaml:"sslmode"`
 	}
 	Telegram struct {
-		Token     string `yaml:"token"`
-		UserParse string `ymal:"userParse"`
-		Channel   string `yaml:"channel"`
+		Token   string `yaml:"token"`
+		Channel string `yaml:"channel"`
 	}
 	Instagram struct {
-		User string `yaml:"username"`
-		Pass string `yaml:"password"`
+		User      string `yaml:"username"`
+		Pass      string `yaml:"password"`
+		UserParse string `ymal:"userParse"`
 	}
 	Parser struct {
 		Minutes int `yaml:"minutes"`

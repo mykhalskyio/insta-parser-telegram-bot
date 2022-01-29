@@ -21,7 +21,7 @@ func Start(bot *telegram.TelegramBot, dbpg *db.Postgres, cfg *config.Config) err
 	}
 	defer user.Logout()
 
-	profile, _ := user.VisitProfile(cfg.Telegram.UserParse)
+	profile, _ := user.VisitProfile(cfg.Instagram.UserParse)
 
 	stories := profile.Stories.Reel
 	for _, storis := range stories.Items {
