@@ -6,6 +6,7 @@ import (
 
 	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/config"
 	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/db"
+	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/instagram"
 	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/parser"
 	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/telegram"
 )
@@ -28,8 +29,10 @@ func main() {
 		log.Fatalln(err)
 	}
 
+	insta := instagram.NewUser(cfg.Instagram.User, cfg.Instagram.Pass)
+
 	for {
-		err := parser.Start(bot, db, cfg)
+		err := parser.Start(insta, bot, db, cfg)
 		if err != nil {
 			log.Println("Parser error:", err)
 		}

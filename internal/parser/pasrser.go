@@ -3,28 +3,28 @@ package parser
 import (
 	"fmt"
 
-	"github.com/Davincible/goinsta"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/config"
 	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/db"
+	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/instagram"
 	"github.com/mykhalskyio/insta-parser-telegram-bot/internal/telegram"
 )
 
 // parse instgram storis
-func Start(bot *telegram.TelegramBot, dbpg *db.Postgres, cfg *config.Config) error {
-	user := goinsta.New(cfg.Instagram.User, cfg.Instagram.Pass)
+func Start(insta *instagram.InstaUser, bot *telegram.TelegramBot, dbpg *db.Postgres, cfg *config.Config) error {
 
-	err := user.Login()
+	err := insta.User.Login()
 	if err != nil {
 		fmt.Println("Loggin error:", err)
 		return err
 	}
-	defer user.Logout()
+	defer insta.User.Logout()
 
-	profile, _ := user.VisitProfile(cfg.Instagram.UserParse)
-
-	stories := profile.Stories.Reel
-	for _, storis := range stories.Items {
+	stories, err := insta.GetUserStories(cfg.Instagram.UserParse)
+	if err != nil {
+		return err
+	}
+	for _, storis := range stories {
 		storisId := storis.GetID()
 
 		result := dbpg.Check(storisId)

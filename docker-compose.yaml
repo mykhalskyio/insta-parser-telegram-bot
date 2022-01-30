@@ -5,6 +5,7 @@ services:
     command: ./app
     depends_on:
       - pgdb
+    restart: always
 
   pgdb:
     image: "postgres:11"
