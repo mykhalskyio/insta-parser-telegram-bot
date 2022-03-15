@@ -7,13 +7,13 @@ postgres:
   sslmode: disable
 
 telegram:
-  token: token
-  channel: channel # channel where the bot will send photos (without @)
+  token: 5038550239:AAEa0QVQKFo2QFxTUukvt4kfkIwzEuVmYMM
+  channel: dmtfcc
 
 instagram:
-  username: username
-  password: password
-  userparse: userparse # whose username must be parsed (without @)
+  username: zupka228
+  password: zupka2288
+  userparse: dmtfccollege
 
 parser:
-  minutes: 60 
+  minutes: 60
