@@ -21,21 +21,34 @@ func main() {
 
 	db, err := db.NewConnect(cfg)
 	if err != nil {
-		log.Fatalln("BD error:", err)
+		errString := err.Error()
+		bot.SendError(cfg.Telegram.User, "BD error:"+errString)
 	}
 
 	err = db.MigrationInit()
 	if err != nil {
-		log.Fatalln(err)
+		errString := err.Error()
+		bot.SendError(cfg.Telegram.User, "Migration error:"+errString)
 	}
 
 	insta := instagram.NewUser(cfg.Instagram.User, cfg.Instagram.Pass)
 
 	for {
-		err := parser.Start(insta, bot, db, cfg)
-		if err != nil {
-			log.Println("Parser error:", err)
+		currecntTime := getCurrentTime()
+		hour := currecntTime.Hour()
+		if (10 <= hour && hour <= 16) || (hour == 20) {
+			err := parser.Start(insta, bot, db, cfg)
+			if err != nil {
+				errString := err.Error()
+				bot.SendError(cfg.Telegram.User, "Parser error:"+errString)
+			}
 		}
 		time.Sleep(time.Minute * time.Duration(cfg.Parser.Minutes))
 	}
+}
+
+func getCurrentTime() time.Time {
+	now := time.Now()
+	loc, _ := time.LoadLocation("Europe/Kiev")
+	return now.In(loc)
 }
