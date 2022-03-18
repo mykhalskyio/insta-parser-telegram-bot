@@ -19,6 +19,8 @@ func main() {
 		log.Fatalln("Telegram bot create error:", err)
 	}
 
+	bot.SendError(cfg.Telegram.User, "bot start")
+
 	db, err := db.NewConnect(cfg)
 	if err != nil {
 		errString := err.Error()
