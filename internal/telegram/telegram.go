@@ -38,3 +38,8 @@ func (bot *TelegramBot) SendToChannel(channelName string, data tgbotapi.RequestF
 	}
 	return nil
 }
+
+func (bot *TelegramBot) SendError(user int64, err string) {
+	msg := tgbotapi.NewMessage(user, err)
+	bot.Api.Send(msg)
+}
