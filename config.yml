@@ -7,6 +7,7 @@ postgres:
   sslmode: disable
 
 telegram:
+  user: user # user id for error notification 
   token: token
   channel: channel # channel where the bot will send photos (without @)
 

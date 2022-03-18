@@ -17,6 +17,7 @@ type Config struct {
 		Sslmode string `yaml:"sslmode"`
 	}
 	Telegram struct {
+		User    int64  `yaml:"user"`
 		Token   string `yaml:"token"`
 		Channel string `yaml:"channel"`
 	}
